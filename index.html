@@ -3,37 +3,753 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Живая сетка плей-офф ЧМ-2026</title>
-  <meta name="description" content="Онлайн-сетка плей-офф ЧМ-2026 с автообновлением после матчей и скачиванием PNG." />
-  <link rel="stylesheet" href="assets/styles.css" />
+  <title>Плей-офф ЧМ-2026</title>
+  <meta name="description" content="Живая сетка плей-офф ЧМ-2026 с флагами, свежими результатами и прогнозом на следующий матч." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;650;750;850&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050907;
+      --panel: rgba(13, 24, 19, .86);
+      --panel-2: rgba(19, 35, 29, .92);
+      --line: rgba(255, 255, 255, .14);
+      --text: #fff8e6;
+      --muted: #b9c6bd;
+      --gold: #f0c45b;
+      --green: #38d48d;
+      --red: #e85d5d;
+      --blue: #75a7ff;
+      --shadow: 0 24px 60px rgba(0, 0, 0, .36);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Manrope, Inter, Segoe UI, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(56, 212, 141, .20), transparent 30%),
+        radial-gradient(circle at 88% 8%, rgba(240, 196, 91, .18), transparent 26%),
+        linear-gradient(135deg, #07100c 0%, #092017 48%, #050907 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.78), transparent 88%);
+    }
+
+    .page {
+      position: relative;
+      width: min(1480px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 48px;
+    }
+
+    .topbar,
+    .hero,
+    .stats,
+    .panel,
+    .prediction {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: inherit;
+      text-decoration: none;
+      font-weight: 850;
+      font-size: 21px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      color: #171006;
+      background: linear-gradient(135deg, #ffe38c, #be7d23);
+      box-shadow: inset 0 1px rgba(255,255,255,.55);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 14px;
+      padding: 12px 16px;
+      color: var(--text);
+      background: rgba(255,255,255,.08);
+      font: inherit;
+      font-size: 16px;
+      font-weight: 850;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      color: #08120d;
+      background: linear-gradient(135deg, #4ee7a1, #f0c45b);
+      border-color: transparent;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+      gap: 20px;
+      margin-top: 18px;
+      padding: 28px;
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 900px;
+      font-size: clamp(48px, 7vw, 110px);
+      line-height: .92;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: clamp(30px, 3vw, 44px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .hero-card {
+      display: grid;
+      align-content: center;
+      gap: 12px;
+      min-height: 190px;
+      padding: 24px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(56,212,141,.22), rgba(117,167,255,.12));
+      border: 1px solid rgba(255,255,255,.16);
+    }
+
+    .kicker,
+    .label,
+    .match-meta {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .hero-card strong {
+      font-size: clamp(34px, 4vw, 54px);
+      line-height: 1;
+    }
+
+    .hero-card span:last-child {
+      color: #dfe9e2;
+      font-size: 20px;
+      font-weight: 750;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr .65fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 20px;
+    }
+
+    .stat {
+      min-width: 0;
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 6px;
+      color: #fff;
+      font-size: clamp(22px, 2vw, 30px);
+      line-height: 1.12;
+      overflow-wrap: anywhere;
+    }
+
+    .panel,
+    .prediction {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 24px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      color: var(--gold);
+      background: rgba(240,196,91,.10);
+      border: 1px solid rgba(240,196,91,.25);
+      font-weight: 850;
+      font-size: 16px;
+    }
+
+    .bracket {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(250px, 1fr));
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .stage {
+      min-width: 250px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .stage-title {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      padding: 12px 4px;
+      color: var(--gold);
+      font-size: 20px;
+      font-weight: 850;
+    }
+
+    .match-card {
+      display: grid;
+      gap: 10px;
+      min-height: 148px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+    }
+
+    .match-card.is-complete {
+      border-color: rgba(56,212,141,.42);
+      background: linear-gradient(145deg, rgba(56,212,141,.14), rgba(255,255,255,.045));
+    }
+
+    .match-card.is-live {
+      border-color: rgba(232,93,93,.75);
+      box-shadow: 0 0 0 1px rgba(232,93,93,.22);
+    }
+
+    .match-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 15px;
+    }
+
+    .pill {
+      white-space: nowrap;
+      color: var(--text);
+      font-weight: 850;
+    }
+
+    .team {
+      display: grid;
+      grid-template-columns: 34px 56px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      min-height: 42px;
+      padding: 8px;
+      border-radius: 12px;
+    }
+
+    .team.is-winner {
+      background: rgba(56,212,141,.16);
+    }
+
+    .flag {
+      font-size: 26px;
+      text-align: center;
+    }
+
+    .code {
+      display: inline-grid;
+      place-items: center;
+      height: 30px;
+      border-radius: 10px;
+      color: #07100c;
+      background: var(--gold);
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .name {
+      min-width: 0;
+      font-size: 18px;
+      font-weight: 850;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .score {
+      color: var(--gold);
+      font-size: 24px;
+      font-weight: 850;
+    }
+
+    .prediction {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
+      gap: 18px;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(14,28,23,.95), rgba(20,33,43,.92));
+    }
+
+    .prediction-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .winner-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .winner-options label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 62px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      font-size: 19px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .winner-options input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--green);
+    }
+
+    .score-pick {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .score-pick label {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .score-pick input {
+      width: 100%;
+      min-height: 58px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 16px;
+      color: var(--text);
+      background: rgba(0,0,0,.22);
+      font: inherit;
+      font-size: 24px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .prediction-result {
+      min-height: 48px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      color: #e9fff5;
+      background: rgba(56,212,141,.12);
+      font-size: 18px;
+      font-weight: 750;
+    }
+
+    .error {
+      padding: 18px;
+      border-radius: 16px;
+      color: #ffd7d7;
+      background: rgba(232,93,93,.14);
+      font-size: 18px;
+      font-weight: 750;
+    }
+
+    @media (max-width: 980px) {
+      .page { width: min(100% - 22px, 760px); padding-top: 14px; }
+      .hero,
+      .stats,
+      .prediction { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .actions { justify-content: flex-start; }
+      .bracket { grid-template-columns: repeat(4, 280px); }
+      h1 { font-size: clamp(44px, 13vw, 72px); }
+    }
+
+    @media (max-width: 560px) {
+      .hero,
+      .panel,
+      .prediction { padding: 16px; }
+      .winner-options,
+      .score-pick { grid-template-columns: 1fr; }
+      .btn { width: 100%; justify-content: center; }
+      .actions { width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
+      .actions .btn-primary { grid-column: 1 / -1; }
+    }
+  </style>
 </head>
 <body>
   <main class="page">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Плей-офф ЧМ-2026">
+        <span class="brand-mark">26</span>
+        <span>ЧМ-2026</span>
+      </a>
+      <div class="actions">
+        <a class="btn" href="#predict">Прогноз</a>
+        <button id="refreshBtn" class="btn btn-primary" type="button">Обновить</button>
+      </div>
+    </header>
+
     <section class="hero">
       <div>
-        <p class="eyebrow">FIFA World Cup 2026</p>
-        <h1>Живая сетка плей-офф</h1>
-        <p class="lead">После каждого обновления данных победители автоматически проходят дальше по сетке. Марокко уже отмечено в 1/4 финала после победы над Канадой.</p>
+        <h1>Плей-офф ЧМ-2026</h1>
       </div>
-      <div class="actions">
-        <button id="refreshBtn" class="btn">Обновить сейчас</button>
-        <button id="pngBtn" class="btn btn-gold">Скачать PNG</button>
+      <aside class="hero-card" aria-label="Следующий матч">
+        <span class="kicker">Следующий матч</span>
+        <strong id="focusTitle">загрузка...</strong>
+        <span id="focusMeta">обновляем данные</span>
+      </aside>
+    </section>
+
+    <section class="stats" aria-label="Статус турнира">
+      <div class="stat">
+        <span class="label">Сейчас</span>
+        <strong id="updatedAt">загрузка...</strong>
+      </div>
+      <div class="stat">
+        <span class="label">Готово</span>
+        <strong id="progressStat">0/0</strong>
+      </div>
+      <div class="stat">
+        <span class="label">Дальше</span>
+        <strong id="nextMatchStat">ожидание</strong>
       </div>
     </section>
 
-    <section class="statusbar">
-      <div><span class="label">Последнее обновление:</span><span id="updatedAt">загрузка…</span></div>
-      <div><span class="label">Источник:</span><span id="sourceName">data/matches.json</span></div>
-      <div><span class="label">Автообновление страницы:</span><span>каждые 60 секунд</span></div>
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Сетка</h2>
+        <span class="badge" id="matchCount">0 матчей</span>
+      </div>
+      <div id="bracket" class="bracket"></div>
     </section>
 
-    <section class="bracket-shell"><div id="bracket" class="bracket"></div></section>
-
-    <section class="notes">
-      <h2>Как обновляется</h2>
-      <p>Сайт читает файл <code>data/matches.json</code>. GitHub Action обновляет этот файл через API-Football по расписанию. На странице данные перечитываются автоматически, поэтому ссылка остаётся одна и та же.</p>
+    <section id="predict" class="prediction">
+      <div>
+        <p class="kicker">Прогноз</p>
+        <h2 id="predictTitle">Следующий матч</h2>
+      </div>
+      <form id="predictionForm" class="prediction-form">
+        <div id="winnerOptions" class="winner-options"></div>
+        <div class="score-pick">
+          <label>
+            <span id="scoreOneLabel">1</span>
+            <input id="scoreOne" type="number" min="0" max="15" value="1" inputmode="numeric">
+          </label>
+          <label>
+            <span id="scoreTwoLabel">2</span>
+            <input id="scoreTwo" type="number" min="0" max="15" value="0" inputmode="numeric">
+          </label>
+        </div>
+        <button class="btn btn-primary" type="submit">Сохранить прогноз</button>
+        <div id="predictionResult" class="prediction-result">Выберите победителя и счёт</div>
+      </form>
     </section>
   </main>
-  <script src="assets/app.js"></script>
+
+  <script>
+    const DATA_URL = "data/matches.json";
+    const POLL_MS = 60000;
+    const stageOrder = { R16: 1, QF: 2, SF: 3, FINAL: 4 };
+    const stageLabels = { R16: "1/8 финала", QF: "1/4 финала", SF: "1/2 финала", FINAL: "Финал" };
+    const flags = {
+      PAR: "🇵🇾", FRA: "🇫🇷", CAN: "🇨🇦", MAR: "🇲🇦",
+      POR: "🇵🇹", ESP: "🇪🇸", USA: "🇺🇸", BEL: "🇧🇪",
+      BRA: "🇧🇷", NOR: "🇳🇴", MEX: "🇲🇽", ENG: "🏴",
+      ARG: "🇦🇷", EGY: "🇪🇬", SUI: "🇨🇭", COL: "🇨🇴", TBD: "◇"
+    };
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function flagFor(code) {
+      return flags[code] || flags.TBD;
+    }
+
+    function isComplete(match) {
+      return ["complete", "finished", "final", "ft", "aet", "pen"].includes(String(match.status || "").toLowerCase());
+    }
+
+    function isLive(match) {
+      return ["live", "1h", "2h", "ht", "et", "p", "bt", "int"].includes(String(match.status || "").toLowerCase());
+    }
+
+    function scoreText(match) {
+      if (match.score1 === null || match.score1 === undefined || match.score2 === null || match.score2 === undefined) return "";
+      let text = `${match.score1}:${match.score2}`;
+      if (match.penalty1 !== undefined && match.penalty1 !== null && match.penalty2 !== undefined && match.penalty2 !== null) {
+        text += ` пен. ${match.penalty1}:${match.penalty2}`;
+      }
+      return text;
+    }
+
+    function matchWinner(match) {
+      if (!match) return null;
+      if (match.winner && match.winner !== "TBD") {
+        const code = String(match.winner).toUpperCase();
+        if (code === "TEAM1" || match.winner === 1) return match.team1;
+        if (code === "TEAM2" || match.winner === 2) return match.team2;
+        if (match.team1?.code === code) return match.team1;
+        if (match.team2?.code === code) return match.team2;
+      }
+      if (!isComplete(match)) return null;
+      if (typeof match.score1 === "number" && typeof match.score2 === "number") {
+        if (match.score1 > match.score2) return match.team1;
+        if (match.score2 > match.score1) return match.team2;
+      }
+      if (typeof match.penalty1 === "number" && typeof match.penalty2 === "number") {
+        if (match.penalty1 > match.penalty2) return match.team1;
+        if (match.penalty2 > match.penalty1) return match.team2;
+      }
+      return null;
+    }
+
+    function isPlaceholder(team) {
+      return !team || !team.code || team.code === "TBD" || String(team.name || "").startsWith("Победитель:");
+    }
+
+    function hydrateBracket(data) {
+      const hydrated = JSON.parse(JSON.stringify(data));
+      const byId = new Map(hydrated.matches.map((match) => [match.id, match]));
+      const ordered = [...hydrated.matches].sort((a, b) => (stageOrder[a.stage] || 99) - (stageOrder[b.stage] || 99) || (a.order || 0) - (b.order || 0));
+      for (const match of ordered) {
+        const winner = matchWinner(match);
+        if (!winner || !match.nextMatchId || !match.nextSlot) continue;
+        const next = byId.get(match.nextMatchId);
+        if (!next) continue;
+        if (match.nextSlot === "team1" && isPlaceholder(next.team1)) next.team1 = winner;
+        if (match.nextSlot === "team2" && isPlaceholder(next.team2)) next.team2 = winner;
+      }
+      return hydrated;
+    }
+
+    function statusLabel(match) {
+      if (isLive(match)) return "LIVE";
+      if (isComplete(match)) return scoreText(match) || "FT";
+      return match.kickoffLocal || "TBD";
+    }
+
+    function nextScheduledMatch(matches) {
+      return matches
+        .filter((match) => !isComplete(match))
+        .sort((a, b) => new Date(a.kickoff || 0) - new Date(b.kickoff || 0))[0] || null;
+    }
+
+    function formatUpdated(value) {
+      if (!value) return "нет данных";
+      return new Date(value).toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+    }
+
+    function teamHtml(team, score, winnerCode) {
+      const code = team?.code || "TBD";
+      const name = team?.name || "Пока неизвестно";
+      return `
+        <div class="team ${winnerCode === code ? "is-winner" : ""}">
+          <span class="flag">${escapeHtml(flagFor(code))}</span>
+          <span class="code">${escapeHtml(code)}</span>
+          <span class="name" title="${escapeHtml(name)}">${escapeHtml(name)}</span>
+          <span class="score">${score ?? "–"}</span>
+        </div>
+      `;
+    }
+
+    function renderBracket(data) {
+      const bracket = document.getElementById("bracket");
+      const matches = [...data.matches].sort((a, b) => (stageOrder[a.stage] || 99) - (stageOrder[b.stage] || 99) || (a.order || 0) - (b.order || 0));
+      bracket.innerHTML = Object.keys(stageLabels).map((stage) => {
+        const cards = matches.filter((match) => match.stage === stage).map((match) => {
+          const winnerCode = matchWinner(match)?.code;
+          const state = isLive(match) ? "is-live" : isComplete(match) ? "is-complete" : "";
+          return `
+            <article class="match-card ${state}">
+              <div class="match-meta">
+                <span>M${escapeHtml(match.order || "")}</span>
+                <span class="pill">${escapeHtml(statusLabel(match))}</span>
+              </div>
+              ${teamHtml(match.team1, match.score1, winnerCode)}
+              ${teamHtml(match.team2, match.score2, winnerCode)}
+            </article>
+          `;
+        }).join("");
+        return `<section class="stage"><div class="stage-title">${stageLabels[stage]}</div>${cards}</section>`;
+      }).join("");
+    }
+
+    function updateDashboard(data) {
+      const next = nextScheduledMatch(data.matches);
+      const completed = data.matches.filter(isComplete).length;
+      document.getElementById("updatedAt").textContent = formatUpdated(data.meta?.updatedAt);
+      document.getElementById("progressStat").textContent = `${completed}/${data.matches.length}`;
+      document.getElementById("matchCount").textContent = `${data.matches.length} матчей`;
+      document.getElementById("nextMatchStat").textContent = next
+        ? `${flagFor(next.team1?.code)} ${next.team1?.code || "TBD"} - ${flagFor(next.team2?.code)} ${next.team2?.code || "TBD"}`
+        : "финал";
+      document.getElementById("focusTitle").textContent = next
+        ? `${flagFor(next.team1?.code)} ${next.team1?.code || "TBD"} - ${flagFor(next.team2?.code)} ${next.team2?.code || "TBD"}`
+        : "Финал";
+      document.getElementById("focusMeta").textContent = next ? statusLabel(next) : "все матчи завершены";
+    }
+
+    function predictionKey(match) {
+      return `worldcup-prediction-${match?.id || "none"}`;
+    }
+
+    function renderPrediction(data) {
+      const next = nextScheduledMatch(data.matches);
+      const title = document.getElementById("predictTitle");
+      const options = document.getElementById("winnerOptions");
+      const form = document.getElementById("predictionForm");
+      const result = document.getElementById("predictionResult");
+      const oneLabel = document.getElementById("scoreOneLabel");
+      const twoLabel = document.getElementById("scoreTwoLabel");
+      if (!next) {
+        title.textContent = "Прогноз закрыт";
+        form.style.display = "none";
+        result.textContent = "Все матчи завершены";
+        return;
+      }
+
+      form.style.display = "grid";
+      const teamOne = next.team1 || { code: "TBD", name: "Команда 1" };
+      const teamTwo = next.team2 || { code: "TBD", name: "Команда 2" };
+      title.textContent = `${flagFor(teamOne.code)} ${teamOne.name} - ${flagFor(teamTwo.code)} ${teamTwo.name}`;
+      oneLabel.textContent = teamOne.code || "1";
+      twoLabel.textContent = teamTwo.code || "2";
+      options.innerHTML = [teamOne, teamTwo].map((team, index) => `
+        <label>
+          <input type="radio" name="winner" value="${escapeHtml(team.code || `team${index + 1}`)}" ${index === 0 ? "checked" : ""}>
+          <span>${escapeHtml(flagFor(team.code))}</span>
+          <span>${escapeHtml(team.name || "TBD")}</span>
+        </label>
+      `).join("");
+
+      const saved = JSON.parse(localStorage.getItem(predictionKey(next)) || "null");
+      result.textContent = saved
+        ? `Ваш прогноз: ${saved.flag} ${saved.winnerName}, счёт ${saved.scoreOne}:${saved.scoreTwo}`
+        : "Выберите победителя и счёт";
+
+      form.onsubmit = (event) => {
+        event.preventDefault();
+        const winnerCode = new FormData(form).get("winner");
+        const winnerTeam = [teamOne, teamTwo].find((team) => team.code === winnerCode) || teamOne;
+        const payload = {
+          winnerCode,
+          winnerName: winnerTeam.name,
+          flag: flagFor(winnerTeam.code),
+          scoreOne: document.getElementById("scoreOne").value || "0",
+          scoreTwo: document.getElementById("scoreTwo").value || "0",
+          savedAt: new Date().toISOString()
+        };
+        localStorage.setItem(predictionKey(next), JSON.stringify(payload));
+        result.textContent = `Ваш прогноз: ${payload.flag} ${payload.winnerName}, счёт ${payload.scoreOne}:${payload.scoreTwo}`;
+      };
+    }
+
+    function render(data) {
+      const hydrated = hydrateBracket(data);
+      updateDashboard(hydrated);
+      renderBracket(hydrated);
+      renderPrediction(hydrated);
+    }
+
+    async function loadData() {
+      const response = await fetch(`${DATA_URL}?v=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) throw new Error(`Не удалось загрузить данные: ${response.status}`);
+      render(await response.json());
+    }
+
+    document.getElementById("refreshBtn").addEventListener("click", () => {
+      loadData().catch((error) => {
+        document.getElementById("bracket").innerHTML = `<div class="error">${escapeHtml(error.message)}</div>`;
+      });
+    });
+
+    loadData().catch((error) => {
+      document.getElementById("bracket").innerHTML = `<div class="error">${escapeHtml(error.message)}</div>`;
+    });
+
+    setInterval(() => loadData().catch(console.error), POLL_MS);
+  </script>
 </body>
 </html>
