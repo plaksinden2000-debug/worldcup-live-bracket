@@ -32,9 +32,9 @@
       color: var(--text);
       font-family: Manrope, Inter, Segoe UI, Arial, sans-serif;
       background:
-        radial-gradient(circle at 12% 0%, rgba(56, 212, 141, .20), transparent 30%),
-        radial-gradient(circle at 88% 8%, rgba(240, 196, 91, .18), transparent 26%),
-        linear-gradient(135deg, #07100c 0%, #092017 48%, #050907 100%);
+        radial-gradient(circle at 8% -8%, rgba(56, 212, 141, .22), transparent 28%),
+        radial-gradient(circle at 88% 4%, rgba(240, 196, 91, .18), transparent 24%),
+        linear-gradient(135deg, #050b08 0%, #082116 44%, #141f16 70%, #050907 100%);
     }
 
     body::before {
@@ -51,9 +51,9 @@
 
     .page {
       position: relative;
-      width: min(1480px, calc(100% - 32px));
+      width: min(1660px, calc(100% - 28px));
       margin: 0 auto;
-      padding: 28px 0 48px;
+      padding: 18px 0 46px;
     }
 
     .topbar,
@@ -63,7 +63,7 @@
     .prediction {
       border: 1px solid var(--line);
       background: var(--panel);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .06);
       backdrop-filter: blur(18px);
     }
 
@@ -126,10 +126,10 @@
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
-      gap: 20px;
+      grid-template-columns: minmax(0, 1fr) minmax(340px, 450px);
+      gap: 16px;
       margin-top: 18px;
-      padding: 28px;
+      padding: 20px;
       border-radius: 24px;
       overflow: hidden;
     }
@@ -142,8 +142,8 @@
 
     h1 {
       max-width: 900px;
-      font-size: clamp(48px, 7vw, 110px);
-      line-height: .92;
+      font-size: clamp(46px, 5.8vw, 86px);
+      line-height: .94;
       letter-spacing: 0;
     }
 
@@ -157,7 +157,7 @@
       display: grid;
       align-content: center;
       gap: 12px;
-      min-height: 190px;
+      min-height: 160px;
       padding: 24px;
       border-radius: 18px;
       background: linear-gradient(135deg, rgba(56,212,141,.22), rgba(117,167,255,.12));
@@ -175,8 +175,8 @@
     }
 
     .hero-card strong {
-      font-size: clamp(34px, 4vw, 54px);
-      line-height: 1;
+      font-size: clamp(32px, 3.2vw, 48px);
+      line-height: 1.04;
     }
 
     .hero-card span:last-child {
@@ -240,14 +240,14 @@
 
     .bracket {
       display: grid;
-      grid-template-columns: repeat(4, minmax(250px, 1fr));
-      gap: 14px;
+      grid-template-columns: minmax(290px, 1.12fr) minmax(290px, 1.12fr) minmax(270px, .96fr) minmax(270px, .96fr);
+      gap: 16px;
       overflow-x: auto;
       padding-bottom: 4px;
     }
 
     .stage {
-      min-width: 250px;
+      min-width: 270px;
       display: grid;
       align-content: start;
       gap: 12px;
@@ -265,12 +265,15 @@
 
     .match-card {
       display: grid;
-      gap: 10px;
+      gap: 11px;
       min-height: 148px;
       padding: 14px;
-      border: 1px solid rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.16);
       border-radius: 16px;
-      background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.095), rgba(255,255,255,.035)),
+        linear-gradient(180deg, rgba(240,196,91,.055), transparent 42%);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, .22), inset 0 1px 0 rgba(255, 255, 255, .07);
     }
 
     .match-card.is-complete {
@@ -300,7 +303,7 @@
 
     .team {
       display: grid;
-      grid-template-columns: 34px 56px minmax(0, 1fr) auto;
+      grid-template-columns: 42px 56px minmax(0, 1fr) auto;
       align-items: center;
       gap: 10px;
       min-height: 42px;
@@ -313,8 +316,40 @@
     }
 
     .flag {
-      font-size: 26px;
-      text-align: center;
+      display: block;
+      width: 34px;
+      height: 24px;
+      border-radius: 6px;
+      object-fit: cover;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.24), 0 7px 16px rgba(0,0,0,.22);
+    }
+
+    .flag-empty {
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      background: rgba(255,255,255,.06);
+      font-size: 17px;
+      font-weight: 850;
+      line-height: 1;
+    }
+
+    .match-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      vertical-align: middle;
+    }
+
+    .match-line .flag {
+      flex: 0 0 auto;
+    }
+
+    .versus {
+      color: var(--gold);
+      opacity: .82;
+      padding: 0 4px;
     }
 
     .code {
@@ -324,7 +359,7 @@
       border-radius: 10px;
       color: #07100c;
       background: var(--gold);
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 850;
     }
 
@@ -345,7 +380,7 @@
 
     .prediction {
       display: grid;
-      grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
+      grid-template-columns: minmax(0, .9fr) minmax(380px, 1.05fr);
       gap: 18px;
       align-items: center;
       background: linear-gradient(135deg, rgba(14,28,23,.95), rgba(20,33,43,.92));
@@ -528,11 +563,11 @@
     const POLL_MS = 60000;
     const stageOrder = { R16: 1, QF: 2, SF: 3, FINAL: 4 };
     const stageLabels = { R16: "1/8 финала", QF: "1/4 финала", SF: "1/2 финала", FINAL: "Финал" };
-    const flags = {
-      PAR: "🇵🇾", FRA: "🇫🇷", CAN: "🇨🇦", MAR: "🇲🇦",
-      POR: "🇵🇹", ESP: "🇪🇸", USA: "🇺🇸", BEL: "🇧🇪",
-      BRA: "🇧🇷", NOR: "🇳🇴", MEX: "🇲🇽", ENG: "🏴",
-      ARG: "🇦🇷", EGY: "🇪🇬", SUI: "🇨🇭", COL: "🇨🇴", TBD: "◇"
+    const flagAssets = {
+      PAR: "py", FRA: "fr", CAN: "ca", MAR: "ma",
+      POR: "pt", ESP: "es", USA: "us", BEL: "be",
+      BRA: "br", NOR: "no", MEX: "mx", ENG: "gb-eng",
+      ARG: "ar", EGY: "eg", SUI: "ch", COL: "co"
     };
 
     function escapeHtml(value) {
@@ -544,7 +579,15 @@
     }
 
     function flagFor(code) {
-      return flags[code] || flags.TBD;
+      const asset = flagAssets[code];
+      if (!asset) return `<span class="flag flag-empty" aria-hidden="true">◇</span>`;
+      return `<img class="flag" alt="" loading="lazy" src="https://flagcdn.com/${asset}.svg">`;
+    }
+
+    function teamChip(team, mode = "code") {
+      const code = team?.code || "TBD";
+      const text = mode === "name" ? (team?.name || code) : code;
+      return `<span class="match-line">${flagFor(code)}<span>${escapeHtml(text)}</span></span>`;
     }
 
     function isComplete(match) {
@@ -626,7 +669,7 @@
       const name = team?.name || "Пока неизвестно";
       return `
         <div class="team ${winnerCode === code ? "is-winner" : ""}">
-          <span class="flag">${escapeHtml(flagFor(code))}</span>
+          ${flagFor(code)}
           <span class="code">${escapeHtml(code)}</span>
           <span class="name" title="${escapeHtml(name)}">${escapeHtml(name)}</span>
           <span class="score">${score ?? "–"}</span>
@@ -662,11 +705,11 @@
       document.getElementById("updatedAt").textContent = formatUpdated(data.meta?.updatedAt);
       document.getElementById("progressStat").textContent = `${completed}/${data.matches.length}`;
       document.getElementById("matchCount").textContent = `${data.matches.length} матчей`;
-      document.getElementById("nextMatchStat").textContent = next
-        ? `${flagFor(next.team1?.code)} ${next.team1?.code || "TBD"} - ${flagFor(next.team2?.code)} ${next.team2?.code || "TBD"}`
+      document.getElementById("nextMatchStat").innerHTML = next
+        ? `${teamChip(next.team1)} <span class="versus">-</span> ${teamChip(next.team2)}`
         : "финал";
-      document.getElementById("focusTitle").textContent = next
-        ? `${flagFor(next.team1?.code)} ${next.team1?.code || "TBD"} - ${flagFor(next.team2?.code)} ${next.team2?.code || "TBD"}`
+      document.getElementById("focusTitle").innerHTML = next
+        ? `${teamChip(next.team1)} <span class="versus">-</span> ${teamChip(next.team2)}`
         : "Финал";
       document.getElementById("focusMeta").textContent = next ? statusLabel(next) : "все матчи завершены";
     }
@@ -693,20 +736,20 @@
       form.style.display = "grid";
       const teamOne = next.team1 || { code: "TBD", name: "Команда 1" };
       const teamTwo = next.team2 || { code: "TBD", name: "Команда 2" };
-      title.textContent = `${flagFor(teamOne.code)} ${teamOne.name} - ${flagFor(teamTwo.code)} ${teamTwo.name}`;
+      title.innerHTML = `${teamChip(teamOne, "name")} <span class="versus">-</span> ${teamChip(teamTwo, "name")}`;
       oneLabel.textContent = teamOne.code || "1";
       twoLabel.textContent = teamTwo.code || "2";
       options.innerHTML = [teamOne, teamTwo].map((team, index) => `
         <label>
           <input type="radio" name="winner" value="${escapeHtml(team.code || `team${index + 1}`)}" ${index === 0 ? "checked" : ""}>
-          <span>${escapeHtml(flagFor(team.code))}</span>
+          ${flagFor(team.code)}
           <span>${escapeHtml(team.name || "TBD")}</span>
         </label>
       `).join("");
 
       const saved = JSON.parse(localStorage.getItem(predictionKey(next)) || "null");
-      result.textContent = saved
-        ? `Ваш прогноз: ${saved.flag} ${saved.winnerName}, счёт ${saved.scoreOne}:${saved.scoreTwo}`
+      result.innerHTML = saved
+        ? `Ваш прогноз: ${teamChip({ code: saved.winnerCode, name: saved.winnerName }, "name")}, счёт ${saved.scoreOne}:${saved.scoreTwo}`
         : "Выберите победителя и счёт";
 
       form.onsubmit = (event) => {
@@ -714,15 +757,14 @@
         const winnerCode = new FormData(form).get("winner");
         const winnerTeam = [teamOne, teamTwo].find((team) => team.code === winnerCode) || teamOne;
         const payload = {
-          winnerCode,
           winnerName: winnerTeam.name,
-          flag: flagFor(winnerTeam.code),
+          winnerCode: winnerTeam.code,
           scoreOne: document.getElementById("scoreOne").value || "0",
           scoreTwo: document.getElementById("scoreTwo").value || "0",
           savedAt: new Date().toISOString()
         };
         localStorage.setItem(predictionKey(next), JSON.stringify(payload));
-        result.textContent = `Ваш прогноз: ${payload.flag} ${payload.winnerName}, счёт ${payload.scoreOne}:${payload.scoreTwo}`;
+        result.innerHTML = `Ваш прогноз: ${teamChip(winnerTeam, "name")}, счёт ${payload.scoreOne}:${payload.scoreTwo}`;
       };
     }
 
