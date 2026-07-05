@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Живая сетка плей-офф ЧМ-2026</title>
+  <meta name="description" content="Онлайн-сетка плей-офф ЧМ-2026 с автообновлением после матчей и скачиванием PNG." />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">FIFA World Cup 2026</p>
+        <h1>Живая сетка плей-офф</h1>
+        <p class="lead">После каждого обновления данных победители автоматически проходят дальше по сетке. Марокко уже отмечено в 1/4 финала после победы над Канадой.</p>
+      </div>
+      <div class="actions">
+        <button id="refreshBtn" class="btn">Обновить сейчас</button>
+        <button id="pngBtn" class="btn btn-gold">Скачать PNG</button>
+      </div>
+    </section>
+
+    <section class="statusbar">
+      <div><span class="label">Последнее обновление:</span><span id="updatedAt">загрузка…</span></div>
+      <div><span class="label">Источник:</span><span id="sourceName">data/matches.json</span></div>
+      <div><span class="label">Автообновление страницы:</span><span>каждые 60 секунд</span></div>
+    </section>
+
+    <section class="bracket-shell"><div id="bracket" class="bracket"></div></section>
+
+    <section class="notes">
+      <h2>Как обновляется</h2>
+      <p>Сайт читает файл <code>data/matches.json</code>. GitHub Action обновляет этот файл через API-Football по расписанию. На странице данные перечитываются автоматически, поэтому ссылка остаётся одна и та же.</p>
+    </section>
+  </main>
+  <script src="assets/app.js"></script>
+</body>
+</html>
