@@ -1,0 +1,324 @@
+{
+  "meta": {
+    "updatedAt": "2026-07-04T20:40:00+03:00",
+    "source": "Стартовые данные + автообновление через GitHub Action",
+    "timezone": "Europe/Moscow"
+  },
+  "matches": [
+    {
+      "id": "53452509",
+      "stage": "R16",
+      "order": 1,
+      "team1": {
+        "code": "PAR",
+        "name": "Парагвай"
+      },
+      "team2": {
+        "code": "FRA",
+        "name": "Франция"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-05T00:00:00+03:00",
+      "kickoffLocal": "05 июля • 00:00",
+      "winner": null,
+      "nextMatchId": "53452525",
+      "nextSlot": "team1"
+    },
+    {
+      "id": "53452511",
+      "stage": "R16",
+      "order": 2,
+      "team1": {
+        "code": "CAN",
+        "name": "Канада"
+      },
+      "team2": {
+        "code": "MAR",
+        "name": "Марокко"
+      },
+      "score1": 0,
+      "score2": 3,
+      "status": "complete",
+      "kickoff": "2026-07-04T20:00:00+03:00",
+      "kickoffLocal": "Завершён",
+      "winner": "MAR",
+      "nextMatchId": "53452525",
+      "nextSlot": "team2"
+    },
+    {
+      "id": "53452513",
+      "stage": "R16",
+      "order": 3,
+      "team1": {
+        "code": "POR",
+        "name": "Португалия"
+      },
+      "team2": {
+        "code": "ESP",
+        "name": "Испания"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-06T22:00:00+03:00",
+      "kickoffLocal": "06 июля • 22:00",
+      "winner": null,
+      "nextMatchId": "53452527",
+      "nextSlot": "team1"
+    },
+    {
+      "id": "53452515",
+      "stage": "R16",
+      "order": 4,
+      "team1": {
+        "code": "USA",
+        "name": "США"
+      },
+      "team2": {
+        "code": "BEL",
+        "name": "Бельгия"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-07T03:00:00+03:00",
+      "kickoffLocal": "07 июля • 03:00",
+      "winner": null,
+      "nextMatchId": "53452527",
+      "nextSlot": "team2"
+    },
+    {
+      "id": "53452517",
+      "stage": "R16",
+      "order": 5,
+      "team1": {
+        "code": "BRA",
+        "name": "Бразилия"
+      },
+      "team2": {
+        "code": "NOR",
+        "name": "Норвегия"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-05T23:00:00+03:00",
+      "kickoffLocal": "05 июля • 23:00",
+      "winner": null,
+      "nextMatchId": "53452529",
+      "nextSlot": "team1"
+    },
+    {
+      "id": "53452519",
+      "stage": "R16",
+      "order": 6,
+      "team1": {
+        "code": "MEX",
+        "name": "Мексика"
+      },
+      "team2": {
+        "code": "ENG",
+        "name": "Англия"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-06T03:00:00+03:00",
+      "kickoffLocal": "06 июля • 03:00",
+      "winner": null,
+      "nextMatchId": "53452529",
+      "nextSlot": "team2"
+    },
+    {
+      "id": "53452521",
+      "stage": "R16",
+      "order": 7,
+      "team1": {
+        "code": "ARG",
+        "name": "Аргентина"
+      },
+      "team2": {
+        "code": "EGY",
+        "name": "Египет"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-07T19:00:00+03:00",
+      "kickoffLocal": "07 июля • 19:00",
+      "winner": null,
+      "nextMatchId": "53452531",
+      "nextSlot": "team1"
+    },
+    {
+      "id": "53452523",
+      "stage": "R16",
+      "order": 8,
+      "team1": {
+        "code": "SUI",
+        "name": "Швейцария"
+      },
+      "team2": {
+        "code": "COL",
+        "name": "Колумбия"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-07T23:00:00+03:00",
+      "kickoffLocal": "07 июля • 23:00",
+      "winner": null,
+      "nextMatchId": "53452531",
+      "nextSlot": "team2"
+    },
+    {
+      "id": "53452525",
+      "stage": "QF",
+      "order": 1,
+      "team1": {
+        "code": "TBD",
+        "name": "Победитель: Парагвай / Франция"
+      },
+      "team2": {
+        "code": "TBD",
+        "name": "Победитель: Канада / Марокко"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-09T23:00:00+03:00",
+      "kickoffLocal": "09 июля • 23:00",
+      "winner": null,
+      "nextMatchId": "53452533",
+      "nextSlot": "team1"
+    },
+    {
+      "id": "53452527",
+      "stage": "QF",
+      "order": 2,
+      "team1": {
+        "code": "TBD",
+        "name": "Победитель: Португалия / Испания"
+      },
+      "team2": {
+        "code": "TBD",
+        "name": "Победитель: США / Бельгия"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-10T22:00:00+03:00",
+      "kickoffLocal": "10 июля • 22:00",
+      "winner": null,
+      "nextMatchId": "53452533",
+      "nextSlot": "team2"
+    },
+    {
+      "id": "53452529",
+      "stage": "QF",
+      "order": 3,
+      "team1": {
+        "code": "TBD",
+        "name": "Победитель: Бразилия / Норвегия"
+      },
+      "team2": {
+        "code": "TBD",
+        "name": "Победитель: Мексика / Англия"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-11T00:00:00+03:00",
+      "kickoffLocal": "11 июля",
+      "winner": null,
+      "nextMatchId": "53452535",
+      "nextSlot": "team1"
+    },
+    {
+      "id": "53452531",
+      "stage": "QF",
+      "order": 4,
+      "team1": {
+        "code": "TBD",
+        "name": "Победитель: Аргентина / Египет"
+      },
+      "team2": {
+        "code": "TBD",
+        "name": "Победитель: Швейцария / Колумбия"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-11T04:00:00+03:00",
+      "kickoffLocal": "11 июля",
+      "winner": null,
+      "nextMatchId": "53452535",
+      "nextSlot": "team2"
+    },
+    {
+      "id": "53452533",
+      "stage": "SF",
+      "order": 1,
+      "team1": {
+        "code": "TBD",
+        "name": "Победитель QF-1"
+      },
+      "team2": {
+        "code": "TBD",
+        "name": "Победитель QF-2"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-14T22:00:00+03:00",
+      "kickoffLocal": "14 июля",
+      "winner": null,
+      "nextMatchId": "53452537",
+      "nextSlot": "team1"
+    },
+    {
+      "id": "53452535",
+      "stage": "SF",
+      "order": 2,
+      "team1": {
+        "code": "TBD",
+        "name": "Победитель QF-3"
+      },
+      "team2": {
+        "code": "TBD",
+        "name": "Победитель QF-4"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-15T22:00:00+03:00",
+      "kickoffLocal": "15 июля",
+      "winner": null,
+      "nextMatchId": "53452537",
+      "nextSlot": "team2"
+    },
+    {
+      "id": "53452537",
+      "stage": "FINAL",
+      "order": 1,
+      "team1": {
+        "code": "TBD",
+        "name": "Победитель полуфинала 1"
+      },
+      "team2": {
+        "code": "TBD",
+        "name": "Победитель полуфинала 2"
+      },
+      "score1": null,
+      "score2": null,
+      "status": "scheduled",
+      "kickoff": "2026-07-19T22:00:00+03:00",
+      "kickoffLocal": "19 июля",
+      "winner": null,
+      "nextMatchId": null,
+      "nextSlot": null
+    }
+  ]
+}
