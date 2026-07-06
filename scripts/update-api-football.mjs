@@ -16,6 +16,24 @@ const terminalStatuses = new Set([
   "ended"
 ]);
 const liveStatuses = new Set(["1h", "2h", "ht", "et", "live", "pen", "break"]);
+const teamAliases = {
+  PAR: ["Paraguay", "Парагвай"],
+  FRA: ["France", "Франция"],
+  CAN: ["Canada", "Канада"],
+  MAR: ["Morocco", "Марокко"],
+  POR: ["Portugal", "Португалия"],
+  ESP: ["Spain", "España", "Испания"],
+  USA: ["USA", "US", "United States", "United States of America", "США"],
+  BEL: ["Belgium", "Бельгия"],
+  BRA: ["Brazil", "Brasil", "Бразилия"],
+  NOR: ["Norway", "Норвегия"],
+  MEX: ["Mexico", "México", "Мексика"],
+  ENG: ["England", "Англия"],
+  ARG: ["Argentina", "Аргентина"],
+  EGY: ["Egypt", "Египет"],
+  SUI: ["Switzerland", "Swiss", "Швейцария"],
+  COL: ["Colombia", "Колумбия"]
+};
 
 function toDateOnly(value) {
   return new Date(value).toISOString().slice(0, 10);
@@ -26,7 +44,7 @@ function normalize(value) {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-zа-я0-9]+/g, "");
+    .replace(/[^\p{L}0-9]+/gu, "");
 }
 
 function parseScore(value) {
@@ -55,17 +73,39 @@ function winnerFrom(match) {
   return null;
 }
 
+function isUnknownTeam(team) {
+  return !team?.code || team.code === "TBD";
+}
+
+function teamKeys(team) {
+  const aliases = [team?.code, team?.name, ...(teamAliases[team?.code] || [])];
+  return [...new Set(aliases.map(normalize).filter(Boolean))];
+}
+
+function teamMatches(team, eventName) {
+  if (isUnknownTeam(team)) return false;
+  const normalizedEvent = normalize(eventName);
+  if (!normalizedEvent) return false;
+  return teamKeys(team).some((key) => {
+    if (key.length < 2) return false;
+    return key === normalizedEvent || normalizedEvent.includes(key) || key.includes(normalizedEvent);
+  });
+}
+
 function findEvent(match, events) {
   const byId = events.find((event) => String(event.match_id) === String(match.id));
-  if (byId) return byId;
+  if (byId) return { event: byId, swapped: false };
 
-  const home = normalize(match.team1?.name);
-  const away = normalize(match.team2?.name);
-  return events.find((event) => {
-    const eventHome = normalize(event.match_hometeam_name);
-    const eventAway = normalize(event.match_awayteam_name);
-    return eventHome === home && eventAway === away;
-  });
+  if (isUnknownTeam(match.team1) || isUnknownTeam(match.team2)) return null;
+  for (const event of events) {
+    const homeName = event.match_hometeam_name;
+    const awayName = event.match_awayteam_name;
+    const direct = teamMatches(match.team1, homeName) && teamMatches(match.team2, awayName);
+    if (direct) return { event, swapped: false };
+    const swapped = teamMatches(match.team1, awayName) && teamMatches(match.team2, homeName);
+    if (swapped) return { event, swapped: true };
+  }
+  return null;
 }
 
 function buildKickoff(event, previousKickoff) {
@@ -111,13 +151,18 @@ async function fetchEvents(data) {
   return payload;
 }
 
-function applyEvent(match, event) {
+function applyEvent(match, matchEvent) {
+  const { event, swapped } = matchEvent;
+  const homeScore = parseScore(event.match_hometeam_score);
+  const awayScore = parseScore(event.match_awayteam_score);
+  const homePenalty = parseScore(event.match_hometeam_penalty_score);
+  const awayPenalty = parseScore(event.match_awayteam_penalty_score);
   const updated = structuredClone(match);
   updated.kickoff = buildKickoff(event, updated.kickoff);
-  updated.score1 = parseScore(event.match_hometeam_score);
-  updated.score2 = parseScore(event.match_awayteam_score);
-  updated.penalty1 = parseScore(event.match_hometeam_penalty_score);
-  updated.penalty2 = parseScore(event.match_awayteam_penalty_score);
+  updated.score1 = swapped ? awayScore : homeScore;
+  updated.score2 = swapped ? homeScore : awayScore;
+  updated.penalty1 = swapped ? awayPenalty : homePenalty;
+  updated.penalty2 = swapped ? homePenalty : awayPenalty;
   updated.status = statusFromEvent(event);
   updated.kickoffLocal = formatKickoffLocal(updated);
   updated.winner = winnerFrom(updated);
@@ -126,7 +171,9 @@ function applyEvent(match, event) {
 
 async function main() {
   if (!API_KEY) {
-    console.log("APIFOOTBALL_KEY is not set; keeping existing data.");
+    const message = "APIFOOTBALL_KEY is not set. Add it in Settings -> Secrets and variables -> Actions.";
+    if (process.env.GITHUB_ACTIONS === "true") throw new Error(message);
+    console.log(`${message} Keeping existing data.`);
     return;
   }
 
@@ -134,14 +181,24 @@ async function main() {
   const data = JSON.parse(raw);
   const events = await fetchEvents(data);
   let changed = false;
+  const unmatched = [];
 
   data.matches = data.matches.map((match) => {
-    const event = findEvent(match, events);
-    if (!event) return match;
-    const updated = applyEvent(match, event);
+    const matchEvent = findEvent(match, events);
+    if (!matchEvent) {
+      if (!isUnknownTeam(match.team1) && !isUnknownTeam(match.team2) && match.status !== "complete") {
+        unmatched.push(`${match.team1.code}-${match.team2.code}`);
+      }
+      return match;
+    }
+    const updated = applyEvent(match, matchEvent);
     if (JSON.stringify(updated) !== JSON.stringify(match)) changed = true;
     return updated;
   });
+
+  if (unmatched.length) {
+    console.log(`No API event match for: ${unmatched.join(", ")}`);
+  }
 
   if (!changed) {
     console.log("No match changes from APIFootball.");

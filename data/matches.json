@@ -1,8 +1,9 @@
 {
   "meta": {
-    "updatedAt": "2026-07-06T01:56:06+03:00",
-    "source": "Проверено 06 июля 01:56 МСК: Франция 1:0 Парагвай, Марокко 3:0 Канада, Норвегия 2:1 Бразилия; Мексика — Англия ожидается",
-    "timezone": "Europe/Moscow"
+    "updatedAt": "2026-07-06T20:27:54+03:00",
+    "source": "Проверено 06 июля 20:27 МСК: Англия 3:2 Мексика после задержки из-за грозы; Англия вышла на Норвегию, следующий матч — Португалия / Испания в 22:00 МСК",
+    "timezone": "Europe/Moscow",
+    "forecast": "Модельные шансы Codex: форма в турнире, сила состава, домашний фактор и опубликованные превью/коэффициенты."
   },
   "matches": [
     {
@@ -24,7 +25,11 @@
       "kickoffLocal": "Завершён",
       "winner": "FRA",
       "nextMatchId": "53452525",
-      "nextSlot": "team1"
+      "nextSlot": "team1",
+      "forecast": {
+        "team1": 0,
+        "team2": 100
+      }
     },
     {
       "id": "53452511",
@@ -45,7 +50,11 @@
       "kickoffLocal": "Завершён",
       "winner": "MAR",
       "nextMatchId": "53452525",
-      "nextSlot": "team2"
+      "nextSlot": "team2",
+      "forecast": {
+        "team1": 0,
+        "team2": 100
+      }
     },
     {
       "id": "53452513",
@@ -66,7 +75,11 @@
       "kickoffLocal": "06 июля • 22:00",
       "winner": null,
       "nextMatchId": "53452527",
-      "nextSlot": "team1"
+      "nextSlot": "team1",
+      "forecast": {
+        "team1": 46,
+        "team2": 54
+      }
     },
     {
       "id": "53452515",
@@ -87,7 +100,11 @@
       "kickoffLocal": "07 июля • 03:00",
       "winner": null,
       "nextMatchId": "53452527",
-      "nextSlot": "team2"
+      "nextSlot": "team2",
+      "forecast": {
+        "team1": 44,
+        "team2": 56
+      }
     },
     {
       "id": "53452517",
@@ -108,7 +125,11 @@
       "kickoffLocal": "Завершён",
       "winner": "NOR",
       "nextMatchId": "53452529",
-      "nextSlot": "team1"
+      "nextSlot": "team1",
+      "forecast": {
+        "team1": 0,
+        "team2": 100
+      }
     },
     {
       "id": "53452519",
@@ -122,14 +143,18 @@
         "code": "ENG",
         "name": "Англия"
       },
-      "score1": null,
-      "score2": null,
-      "status": "scheduled",
-      "kickoff": "2026-07-06T03:00:00+03:00",
-      "kickoffLocal": "06 июля • 03:00",
-      "winner": null,
+      "score1": 2,
+      "score2": 3,
+      "status": "complete",
+      "kickoff": "2026-07-06T04:00:00+03:00",
+      "kickoffLocal": "Завершён",
+      "winner": "ENG",
       "nextMatchId": "53452529",
-      "nextSlot": "team2"
+      "nextSlot": "team2",
+      "forecast": {
+        "team1": 0,
+        "team2": 100
+      }
     },
     {
       "id": "53452521",
@@ -150,7 +175,11 @@
       "kickoffLocal": "07 июля • 19:00",
       "winner": null,
       "nextMatchId": "53452531",
-      "nextSlot": "team1"
+      "nextSlot": "team1",
+      "forecast": {
+        "team1": 72,
+        "team2": 28
+      }
     },
     {
       "id": "53452523",
@@ -171,7 +200,11 @@
       "kickoffLocal": "07 июля • 23:00",
       "winner": null,
       "nextMatchId": "53452531",
-      "nextSlot": "team2"
+      "nextSlot": "team2",
+      "forecast": {
+        "team1": 48,
+        "team2": 52
+      }
     },
     {
       "id": "53452525",
@@ -192,7 +225,11 @@
       "kickoffLocal": "09 июля • 23:00",
       "winner": null,
       "nextMatchId": "53452533",
-      "nextSlot": "team1"
+      "nextSlot": "team1",
+      "forecast": {
+        "team1": 68,
+        "team2": 32
+      }
     },
     {
       "id": "53452527",
@@ -224,17 +261,21 @@
         "name": "Норвегия"
       },
       "team2": {
-        "code": "TBD",
-        "name": "Победитель: Мексика / Англия"
+        "code": "ENG",
+        "name": "Англия"
       },
       "score1": null,
       "score2": null,
       "status": "scheduled",
       "kickoff": "2026-07-11T00:00:00+03:00",
-      "kickoffLocal": "11 июля",
+      "kickoffLocal": "11 июля • 00:00",
       "winner": null,
       "nextMatchId": "53452535",
-      "nextSlot": "team1"
+      "nextSlot": "team1",
+      "forecast": {
+        "team1": 40,
+        "team2": 60
+      }
     },
     {
       "id": "53452531",

@@ -3,10 +3,14 @@ name: Update World Cup bracket data
 on:
   workflow_dispatch:
   schedule:
-    - cron: "* * * * *"
+    - cron: "*/5 * * * *"
 
 permissions:
   contents: write
+
+concurrency:
+  group: update-worldcup-data
+  cancel-in-progress: true
 
 jobs:
   update:

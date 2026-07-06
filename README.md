@@ -9,7 +9,7 @@
 - `assets/app.js` — логика сетки, автообновление и скачивание PNG.
 - `data/matches.json` — данные матчей.
 - `scripts/update-api-football.mjs` — обновление данных через API-Football.
-- `.github/workflows/update-worldcup.yml` — автоматическое обновление через GitHub Actions каждые 10 минут.
+- `.github/workflows/update-worldcup.yml` — автоматическое обновление через GitHub Actions каждые 5 минут.
 
 ## Быстрый запуск на компьютере
 
