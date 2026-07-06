@@ -417,6 +417,7 @@
       color: var(--muted);
       font-size: 12px;
       font-weight: 850;
+      line-height: 1.05;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -433,6 +434,7 @@
       align-items: center;
       justify-content: center;
       justify-self: start;
+      max-width: 100%;
       margin-top: 2px;
       padding: 7px 11px;
       border-radius: 999px;
@@ -441,6 +443,9 @@
       border: 1px solid rgba(56,212,141,.18);
       font-size: 14px;
       font-weight: 850;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .route small {
@@ -851,6 +856,11 @@
       return `${entrantShort(source.team1, leftSource)} / ${entrantShort(source.team2, rightSource)}`;
     }
 
+    function sourceLine(team, source, matches) {
+      if (!source) return "";
+      return isPlaceholder(team) ? sourceSummary(source, matches) : `из ${matchCode(source)}`;
+    }
+
     function placeholderLabel(source) {
       return source ? "Победитель" : "Ждем пару";
     }
@@ -868,9 +878,15 @@
       if (!next) return "";
       const winner = matchWinner(match);
       const prefix = winner ? `${escapeHtml(winner.code || teamName(winner))} →` : "→";
+      const opponentSlot = match.nextSlot === "team1" ? "team2" : "team1";
+      const opponent = next[opponentSlot];
+      const opponentSource = sourceForSlot(next, opponentSlot, matches);
+      const opponentText = isPlaceholder(opponent)
+        ? (opponentSource ? matchCode(opponentSource) : "TBD")
+        : (opponent?.code || teamName(opponent));
       return `
         <div class="route">
-          <span>${prefix} ${escapeHtml(matchCode(next))}</span>
+          <span>${prefix} ${escapeHtml(matchCode(next))} vs ${escapeHtml(opponentText)}</span>
         </div>
       `;
     }
@@ -925,7 +941,7 @@
       const placeholder = isPlaceholder(team);
       const name = placeholder ? placeholderLabel(source) : team?.name || "Пока неизвестно";
       const title = placeholder ? placeholderTitle(team, source) : name;
-      const sourceText = placeholder && source ? sourceSummary(source, matches) : "";
+      const sourceText = sourceLine(team, source, matches);
       const codeText = placeholder && source ? matchCode(source) : code;
       return `
         <div class="team ${winnerCode === code ? "is-winner" : ""} ${placeholder ? "is-placeholder" : ""}">

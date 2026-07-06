@@ -5,6 +5,7 @@ const API_KEY = process.env.APIFOOTBALL_KEY;
 const API_URL = process.env.APIFOOTBALL_URL || "https://apiv3.apifootball.com/";
 const LEAGUE_ID = process.env.APIFOOTBALL_LEAGUE_ID || "";
 const TIMEZONE = process.env.APIFOOTBALL_TIMEZONE || "Europe/Moscow";
+const SOURCE_LABEL = "API-Football get_events";
 
 const terminalStatuses = new Set([
   "finished",
@@ -208,7 +209,8 @@ async function main() {
   data.meta = {
     ...data.meta,
     updatedAt: new Date().toISOString(),
-    source: "APIFootball live data",
+    source: SOURCE_LABEL,
+    sourceUrl: "https://apifootball.com/documentation/",
     timezone: TIMEZONE
   };
 

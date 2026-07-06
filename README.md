@@ -9,7 +9,7 @@
 - `assets/app.js` — логика сетки, автообновление и скачивание PNG.
 - `data/matches.json` — данные матчей.
 - `scripts/update-api-football.mjs` — обновление данных через API-Football.
-- `.github/workflows/update-worldcup.yml` — автоматическое обновление через GitHub Actions каждые 5 минут.
+- `.github/workflows/update-worldcup.yml` — автоматическое обновление JSON через GitHub Actions каждые 5 минут; сама открытая страница перечитывает JSON каждую минуту.
 
 ## Быстрый запуск на компьютере
 
@@ -33,8 +33,9 @@ python -m http.server 8080
 1. Зарегистрируйтесь в API-Football / API-Sports и получите API key.
 2. В репозитории откройте `Settings` → `Secrets and variables` → `Actions`.
 3. Создайте secret с именем `APIFOOTBALL_KEY`.
-4. Откройте вкладку `Actions`, выберите workflow `Update World Cup bracket data`, нажмите `Run workflow`.
-5. Дальше данные будут обновляться автоматически по расписанию.
+4. При желании добавьте variable `APIFOOTBALL_LEAGUE_ID`, чтобы API отдавал только нужный турнир.
+5. Откройте вкладку `Actions`, выберите workflow `Update World Cup bracket data`, нажмите `Run workflow`.
+6. Дальше данные будут обновляться автоматически по расписанию. Если API вернёт сломанные данные, workflow остановится на проверке `Validate bracket data`.
 
 ## Важно
 
